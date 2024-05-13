@@ -1,0 +1,63 @@
+body {
+    background-image:url(../img/bg/79b710ca4b2acae1c8c850602048b5a3.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: top;
+    background-size: cover;
+}
+
+/* =========================================================================== */
+/* Container 區域 start */
+container{
+    display: flex;
+    margin: 200px auto;
+}
+
+.registerForm{
+    width: 420px;
+}
+
+.registerFormArea{
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 1rem;
+    background: rgba(205, 239, 245, 0.7);
+    backdrop-filter: blur(6px);
+}
+
+.pure-control-group{
+    display: flex;
+}
+
+.ButtonArea{
+    display: flex;
+    flex-flow: wrap;
+    justify-content:center;
+    padding-top: 10px;
+}
+
+.Button{
+    margin: 20px;
+}
+
+.pure-button{
+    background-color: rgba(29, 192, 192, 0.24);
+}
+
+/* Container 區域 end */
+/* =========================================================================== */
+/* footer 區域 start */
+footer{
+    display: flex;
+    flex-flow: wrap;
+    background-color: rgba(37, 124, 223, 0.664);
+}
+
+.subfooter{
+    padding: 0 auto;
+    position: absolute;
+    bottom: 0px;
+}
+
+/* footer 區域 end */
+/* =========================================================================== */

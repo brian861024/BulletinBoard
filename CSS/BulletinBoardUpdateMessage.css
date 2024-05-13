@@ -1,0 +1,121 @@
+body {
+    display: flex;
+    flex-direction: column;
+    background-image:url(../img/bg/ae55faeabda8282bf7b5c63869d07b9f.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: top;
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* =========================================================================== */
+/* Header 區域 start */
+header {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: wrap;
+    margin: 25px 0;
+    padding-right: 110px;
+    min-height: 120px;
+    background-color: #cfddf065;
+}
+
+.logo {
+    background-color: #cfddf000;
+}
+
+.logoimg {
+    margin: 10px 50px;
+    margin-top: 20px;
+    height: 70px;
+}
+
+.dropdown-menu{
+    background-color: #cfddf09a;
+}
+/* Header 區域 end */
+/* =========================================================================== */
+/* Container 區域 start */
+container{
+    display: flex;
+    flex-flow: wrap;
+    padding: 10px 150px;
+    flex: 1;
+}
+
+    /* 左側導覽列 */
+.navbarArea{
+    display: inline-block;
+    text-align: center;
+    border-radius: 5px;
+    min-width: 250px;
+    margin: 10px;
+    height: 600px;
+    background-color: #cfddf065;
+    position: sticky
+}
+
+/* navbarArea寬度無法設定%數(會跑掉) */
+
+.w3-padding-large{
+    margin: 10px;
+    margin-top: 20px;
+}
+
+.classLink{
+    color: #070707ab;
+    text-decoration: none;
+    line-height: 2.5;
+}
+
+    /* 右側內容區域 */
+.rightSectionArea{
+    width: 80%;
+    padding: 0 200px;
+}
+
+.updateMassageTitle{
+    display: flex;
+    align-items: center;
+}
+
+.updateMassageTitleColorBar{
+    height: 36px;
+    width: 5px;
+    background-color: #9cc4fbd7;
+    margin-right: 25px;
+}
+
+.updateMassageFormArea{
+    width: 100%;
+}
+
+.buttonArea{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.pure-form{
+    width: 100%;
+}
+
+
+/* Container 區域 end */
+/* =========================================================================== */
+/* footer 區域 start */
+footer{
+    display: flex;
+    flex-flow: wrap;
+    width: 100%;
+    margin-top: auto;
+}
+
+.subfooter{
+    background-color: rgba(37, 124, 223, 0.664);
+    width: 100%;
+}
+
+/* footer 區域 end */
+/* =========================================================================== */

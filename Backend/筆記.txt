@@ -1,0 +1,108 @@
+isset() print_r() var_dump()
+echo'<pre>'; print_r($a) ; echo '</pre>';
+
+有空要把dbPdo修好，還是有必要把pdo寫成一個物件來使用，看看本來的設計方式能不能修復
+
+<?php
+require 'C:\htdocs\Backend\Pdo.php';
+ 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['name']) && !empty($_POST['password']) && !empty($_POST['email'])) {
+    $name = $_POST['name'];
+    $password = $_POST['password'];
+    $email = $_POST['email'];
+
+    $sql = "INSERT INTO users (username, password , email) VALUES (:username, :password, :email )";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'username' => $name,
+        'password' => $password,
+        'email' => $email
+    ]);
+
+    echo "已註冊。您將在5秒後回到登入頁面。";
+    header("refresh:5;url=..\Frontend\BullentBoardLogin.php");
+    exit;
+}
+?>
+
+<?php
+// 資料庫主機設定
+$host = 'localhost';
+$dbuser ='root';
+$dbpassword = '1111';
+$dbname = 'db';
+
+// 連線資料庫
+$link = mysqli_connect($host,$dbuser,$dbpassword,$dbname);
+if($link){
+    // 連線 + 設定字元集
+    mysqli_query($link,'SET NAMES utf8');
+}
+else {
+    // 錯誤處理
+    echo "不正確連接資料庫</br>" . mysqli_connect_error();
+}
+?>
+
+<!-- isset() print_r() var_dump() -->
+
+<?php
+
+header('Location:BullentBoardLogin.php');
+exit();
+
+var_dump($userName);
+die();
+
+https://ithelp.ithome.com.tw/articles/10108301
+
+?>
+
+<?php
+
+class dbPdo
+{
+    // 資料庫主機設定
+    private $host;
+    private $dbuser;
+    private $dbpassword;
+    private $dbname;
+    protected $pdo;
+
+    //建立資料庫連線的模型
+    protected function connect()
+    {
+        try {
+            $this->pdo = new PDO("mysql:host={$this->host};dbname={$this->dbname};charset=utf8", $this->dbuser, $this->dbpassword);
+        } catch (PDOException $e) {
+            echo "不正確連接資料庫：{$e->getMessage()}</br>";
+        }
+    }
+
+    //寫入本機資料庫參數後實際連線
+    public function __construct()
+    {
+        $this->host = 'localhost';
+        $this->dbuser = 'root';
+        $this->dbpassword = '1111';
+        $this->dbname = 'db';
+        $this->connect(); // 建立連線
+    }
+
+    // 建立query方法方便後續與資料庫溝通
+    public function executeQuery($sql, $params = []) {
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            // prepare()會回傳一個物件，所以Pdo通常用prepare函數來開啟而不是new一個PDOStatement對象
+            $stmt->execute($params);
+            // execute()就只是單純執行sql而已，回傳的資料會儲存在$stmt物件裡面，還要透過fetch()或fetchAll()方法拿出
+            return $stmt;
+            // 回傳一個物件
+        } catch (PDOException $e) {
+            // 向上拋出異常
+            throw $e;
+        }
+    }
+
+   
+}
