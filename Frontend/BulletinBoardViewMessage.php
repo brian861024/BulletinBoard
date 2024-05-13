@@ -88,7 +88,7 @@
           </div>
         </div>
         <div class="messageContent ps-3 pt-4 ">
-          <h3> <?php echo $message->getContent(); ?> </h3>
+          <h3 style="line-height: 1.5;"> <?php echo nl2br($message->getContent()); ?> </h3>
         </div>
       </div>
 

@@ -30,19 +30,19 @@
                         <?php session_start(); ?>
                         <div class="pure-control-group">
                             <label for="aligned-name" style="text-align:left; padding-left: 10PX;">用戶名稱</label>
-                            <input type="text" id="name" name="name" class="pure-input-2-3" placeholder="Username" value="<?php if(isset($_SESSION['registerName'])){echo $_SESSION['registerName'];} ?>" required />
+                            <input type="text" id="name" name="name" class="pure-input-2-3" placeholder="最多 20 字，英文或數字" value="<?php if(isset($_SESSION['registerName'])){echo $_SESSION['registerName'];} ?>" required />
                         </div>
-                        <div class="pure-control-group">
-                            <label for="aligned-password" style="text-align:left; padding-left: 10PX;">密碼</label>
-                            <input type="password" id="password1" name="password1" class="pure-input-2-3" placeholder="Password" value="<?php if(isset($_SESSION['registerPassword1'])){echo $_SESSION['registerPassword1'];} ?>" required />
+                        <div class="pure-control-group mt-4">
+                            <label for="aligned-password" style="text-align:left; padding-left: 10PX;">密碼 (4位數)</label>
+                            <input type="password" id="password1" name="password1" class="pure-input-2-3" placeholder="4位數，英文或數字" value="<?php if(isset($_SESSION['registerPassword1'])){echo $_SESSION['registerPassword1'];} ?>" required />
                         </div>
                         <div class="pure-control-group">
                             <label for="aligned-password" style="text-align:left; padding-left: 10PX;">確認密碼</label>
-                            <input type="password" id="password2" name="password2" class="pure-input-2-3" placeholder="Password" value="<?php if(isset($_SESSION['registerPassword2'])){echo $_SESSION['registerPassword2'];} ?>" required />
+                            <input type="password" id="password2" name="password2" class="pure-input-2-3" placeholder="重複上面密碼" value="<?php if(isset($_SESSION['registerPassword2'])){echo $_SESSION['registerPassword2'];} ?>" required />
                         </div>
                         <div class="pure-control-group" style="margin-top:20PX ;">
                             <label for="aligned-email" style="text-align:left; padding-left: 10PX;">信箱</label>
-                            <input type="email" id="email" name="email" class="pure-input-2-3" placeholder="E-mail" value="<?php if(isset($_SESSION['registerEmail'])){echo $_SESSION['registerEmail'];} ?>" required />
+                            <input type="email" id="email" name="email" class="pure-input-2-3" placeholder="example@gmail.com" value="<?php if(isset($_SESSION['registerEmail'])){echo $_SESSION['registerEmail'];} ?>" required />
                         </div>
                     </fieldset>
                     

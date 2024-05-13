@@ -90,59 +90,113 @@ class userController
         $password2_hash = hash('sha256', $password2);
         $userDaoPdo = new userDaoPdo;
         session_start();
+
+        if (strlen($password1) < 4 && !preg_match('/[\x{4e00}-\x{9fa5}]|[^A-Za-z0-9]/u', $password1)) {
+        }
+
+
         //。比對兩次輸入的密碼是否相同
-        if ($password1_hash == $password2_hash) {
-            //。比對前端輸入的使用者名稱是否和資料庫的有重複
-            if ($userDaoPdo->findUserByUserName($name)) {
+        // 檢查使用者名稱是否小於20
+        if (strlen($name) < 20) {
+            // 檢查使用者名稱沒有含中文跟特殊符號
+            if (!preg_match('/[\x{4e00}-\x{9fa5}]|[^A-Za-z0-9]/u', $name)) {
+                if (strlen($password1) < 4) {
+                    if (!preg_match('/[\x{4e00}-\x{9fa5}]|[^A-Za-z0-9]/u', $password1)) {
+                        if ($password1_hash == $password2_hash) {
+                            //。比對前端輸入的使用者名稱是否和資料庫的有重複
+                            if ($userDaoPdo->findUserByUserName($name)) {
+                                unset($_SESSION['registerName']);
+                                $_SESSION['registerEmail'] = $email;
+                                $_SESSION['$registerPassword1'] = $password1;
+                                $_SESSION['$registerPassword2'] = $password2;
+                                echo "<script type='text/javascript'>
+                                alert('使用者名稱已存在');
+                                </script>";
+                                header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
+                                exit;
+                            } else {
+                                //。比對前端輸入的使用者信箱是否和資料庫的有重複
+                                if ($userDaoPdo->findUserByEmail($email)) {
+                                    $_SESSION['registerName'] = $name;
+                                    unset($_SESSION['registerEmail']);
+                                    $_SESSION['$registerPassword1'] = $password1;
+                                    $_SESSION['$registerPassword2'] = $password2;
+                                    echo "<script type='text/javascript'>
+                                    alert('信箱已註冊');
+                                    </script>";
+                                    header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
+                                    exit;
+                                } else {
+                                    //。建立一個user物件來儲存使用者輸入之資料並且傳至Dao作寫入
+                                    $user = new user;
+                                    $user->setUserName($name);
+                                    $user->setPassword($password1_hash);
+                                    $user->setEmail($email);
+                                    $userDaoPdo->addUser($user);
+                                    echo "<script type='text/javascript'>
+                                    alert('已註冊。您將回到登入頁面。');
+                                    </script>";
+                                    session_destroy();
+                                    header("refresh:0;url=..\..\Frontend\BulletinBoardLogin.php");
+                                    exit;
+                                }
+                            }
+                        } else {
+                            $_SESSION['registerName'] = $name;
+                            $_SESSION['registerEmail'] = $email;
+                            unset($_SESSION['$registerPassword1']);
+                            unset($_SESSION['$registerPassword2']);
+                            echo "<script type='text/javascript'>
+                            alert('兩次密碼不相同');
+                            </script>";
+                            header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
+                            exit;
+                        }
+                    } else {
+                        $_SESSION['registerName'] = $name;
+                        $_SESSION['registerEmail'] = $email;
+                        unset($_SESSION['$registerPassword1']);
+                        unset($_SESSION['$registerPassword2']);
+                        echo "<script type='text/javascript'>
+                            alert('密碼包含中文或特殊符號');
+                            </script>";
+                        header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
+                        exit;
+                    }
+                } else {
+                    $_SESSION['registerName'] = $name;
+                    $_SESSION['registerEmail'] = $email;
+                    unset($_SESSION['$registerPassword1']);
+                    unset($_SESSION['$registerPassword2']);
+                    echo "<script type='text/javascript'>
+                        alert('密碼長度不符');
+                        </script>";
+                    header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
+                    exit;
+                }
+            } else {
                 unset($_SESSION['registerName']);
                 $_SESSION['registerEmail'] = $email;
                 $_SESSION['$registerPassword1'] = $password1;
                 $_SESSION['$registerPassword2'] = $password2;
                 echo "<script type='text/javascript'>
-                alert('使用者名稱已存在');
+                alert('使用者名稱包含中文或特殊符號');
                 </script>";
                 header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
                 exit;
-            } else {
-                //。比對前端輸入的使用者信箱是否和資料庫的有重複
-                if ($userDaoPdo->findUserByEmail($email)) {
-                    $_SESSION['registerName'] = $name;
-                    unset($_SESSION['registerEmail']);
-                    $_SESSION['$registerPassword1'] = $password1;
-                    $_SESSION['$registerPassword2'] = $password2;
-                    echo "<script type='text/javascript'>
-                    alert('信箱已註冊');
-                    </script>";
-                    header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
-                    exit;
-                } else {
-                    //。建立一個user物件來儲存使用者輸入之資料並且傳至Dao作寫入
-                    $user = new user;
-                    $user->setUserName($name);
-                    $user->setPassword($password1_hash);
-                    $user->setEmail($email);
-                    $userDaoPdo->addUser($user);
-                    echo "<script type='text/javascript'>
-                    alert('已註冊。您將回到登入頁面。');
-                    </script>";
-                    session_destroy();
-                    header("refresh:0;url=..\..\Frontend\BulletinBoardLogin.php");
-                    exit;
-                }
             }
         } else {
-            $_SESSION['registerName'] = $name;
+            unset($_SESSION['registerName']);
             $_SESSION['registerEmail'] = $email;
-            unset($_SESSION['$registerPassword1']);
-            unset($_SESSION['$registerPassword2']);
+            $_SESSION['$registerPassword1'] = $password1;
+            $_SESSION['$registerPassword2'] = $password2;
             echo "<script type='text/javascript'>
-            alert('兩次密碼不相同');
-            </script>";
+                alert('使用者名稱超過20字');
+                </script>";
             header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
             exit;
         }
     }
-
     //註冊 區域 end
     //===========================================================================
     //修改資訊 區域 start
@@ -211,7 +265,7 @@ class userController
         //。比對舊信箱是否正確
         if ($previousEmail == $_SESSION['userEmail']) {
             //。比對舊信箱和新信箱是否相同
-            if($userDaoPdo->findUserByEmail($newEmail)){
+            if ($userDaoPdo->findUserByEmail($newEmail)) {
                 echo "<script type='text/javascript'>
                 alert('新信箱已存在');
                 </script>";
@@ -219,13 +273,13 @@ class userController
                 exit;
             } else {
                 if ($previousEmail != $newEmail) {
-                //。將新信箱設定至資料庫
-                $userDaoPdo->updateEmailById($_SESSION['userId'], $newEmail);
-                echo "<script type='text/javascript'>
+                    //。將新信箱設定至資料庫
+                    $userDaoPdo->updateEmailById($_SESSION['userId'], $newEmail);
+                    echo "<script type='text/javascript'>
                 alert('信箱更新成功，將重導至首頁。');
                 </script>";
-                header("refresh:0;url=..\..\Frontend\BulletinBoardIndex.php");
-                exit;
+                    header("refresh:0;url=..\..\Frontend\BulletinBoardIndex.php");
+                    exit;
                 } else {
                     echo "<script type='text/javascript'>
                     alert('新信箱與原信箱相同');

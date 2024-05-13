@@ -39,7 +39,7 @@ class messageDaoPdo
     public function updateMessage($message)
     {
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
-        $sql = "UPDATE message SET title = :title, content = :content , category_id = :category_id  WHERE id = :id";
+        $sql = "UPDATE message SET title = :title, content = :content , category_id = :category_id , updated_at = NOW() WHERE id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             'id' => $message->getId(),
@@ -56,7 +56,7 @@ class messageDaoPdo
     public function findMessages()
     {
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
-        $sql = "SELECT id, user_id, title, content, created_at, updated_at, category_id FROM message ORDER BY created_at DESC;";
+        $sql = "SELECT id, user_id, title, content, created_at, updated_at, category_id FROM message ORDER BY updated_at DESC;";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         // 將回傳之$stmt物件透過fetchAll()函數拆開
@@ -83,7 +83,7 @@ class messageDaoPdo
     public function findMessagesByPage($startMessage, $messagesPerPage)
     {
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
-        $sql = "SELECT id, user_id, title, content, created_at, updated_at, category_id FROM message ORDER BY created_at DESC LIMIT :startMessage, :messagesPerPage";
+        $sql = "SELECT id, user_id, title, content, created_at, updated_at, category_id FROM message ORDER BY updated_at DESC LIMIT :startMessage, :messagesPerPage";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':startMessage', $startMessage, PDO::PARAM_INT);
         $stmt->bindParam(':messagesPerPage', $messagesPerPage, PDO::PARAM_INT);
@@ -141,7 +141,7 @@ class messageDaoPdo
     public function findHistoryMessages($user_id)
     {
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
-        $sql = "SELECT id, user_id, title, content, created_at, updated_at, category_id FROM message WHERE user_id = :user_id ORDER BY created_at DESC;";
+        $sql = "SELECT id, user_id, title, content, created_at, updated_at, category_id FROM message WHERE user_id = :user_id ORDER BY updated_at DESC;";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             'user_id' => $user_id
@@ -170,7 +170,7 @@ class messageDaoPdo
     public function findHistoryMessagesByPage($user_id ,$startMessage ,$messagesPerPage)
     {
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
-        $sql = "SELECT id, user_id, title, content, created_at, updated_at, category_id FROM message WHERE user_id = :user_id ORDER BY created_at DESC LIMIT :startMessage, :messagesPerPage;";
+        $sql = "SELECT id, user_id, title, content, created_at, updated_at, category_id FROM message WHERE user_id = :user_id ORDER BY updated_at DESC LIMIT :startMessage, :messagesPerPage;";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->bindParam(':startMessage', $startMessage, PDO::PARAM_INT);
@@ -201,7 +201,7 @@ class messageDaoPdo
     {
         
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
-        $sql = "SELECT id, user_id, title, content, created_at, updated_at, category_id FROM message WHERE title LIKE :keyWord ORDER BY created_at DESC;";
+        $sql = "SELECT id, user_id, title, content, created_at, updated_at, category_id FROM message WHERE title LIKE :keyWord ORDER BY updated_at DESC;";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':keyWord', '%' . $keyWord . '%', PDO::PARAM_STR);
         $stmt->execute();
@@ -229,7 +229,7 @@ class messageDaoPdo
     public function findMessagesByKeyWordAndPage($keyWord ,$startMessage ,$messagesPerPage)
     {
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
-        $sql = "SELECT id, user_id, title, content, created_at, updated_at, category_id FROM message WHERE title LIKE :keyWord ORDER BY created_at DESC LIMIT :startMessage, :messagesPerPage;";
+        $sql = "SELECT id, user_id, title, content, created_at, updated_at, category_id FROM message WHERE title LIKE :keyWord ORDER BY updated_at DESC LIMIT :startMessage, :messagesPerPage;";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':startMessage', $startMessage, PDO::PARAM_INT);
         $stmt->bindParam(':messagesPerPage', $messagesPerPage, PDO::PARAM_INT);
@@ -263,7 +263,7 @@ class messageDaoPdo
     public function findMessagesByCategoryId($category_id)
     {
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
-        $sql = "SELECT id, user_id, title, content, created_at, updated_at, category_id FROM message WHERE category_id = :category_id ORDER BY created_at DESC;";
+        $sql = "SELECT id, user_id, title, content, created_at, updated_at, category_id FROM message WHERE category_id = :category_id ORDER BY updated_at DESC;";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             'category_id' => $category_id
@@ -292,7 +292,7 @@ class messageDaoPdo
     public function findMessagesByCategoryIdAndPage($category_id ,$startMessage ,$messagesPerPage)
     {
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
-        $sql = "SELECT id, user_id, title, content, created_at, updated_at, category_id FROM message WHERE category_id = :category_id ORDER BY created_at DESC LIMIT :startMessage, :messagesPerPage;";
+        $sql = "SELECT id, user_id, title, content, created_at, updated_at, category_id FROM message WHERE category_id = :category_id ORDER BY updated_at DESC LIMIT :startMessage, :messagesPerPage;";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':category_id', $category_id, PDO::PARAM_INT);
         $stmt->bindParam(':startMessage', $startMessage, PDO::PARAM_INT);

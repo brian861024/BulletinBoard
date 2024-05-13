@@ -51,7 +51,7 @@
               <label for="email">原本的信箱</label>
               <input type="email" id="previousEmail" name="previousEmail" placeholder="請輸入原信箱" class="pure-input-1 mb-4" />
               <label for="newEmail">新信箱</label>
-              <input id="newEmail" name="newEmail" placeholder="在此輸入新信箱" class="pure-input-1" />
+              <input type="email" id="newEmail" name="newEmail" placeholder="在此輸入新信箱" class="pure-input-1" />
 
               <button type="submit" class="pure-button mt-5">提交</button>
             </fieldset>

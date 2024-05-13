@@ -47,7 +47,7 @@
             <?php
             $categoryDaoPdo = new categoryDaoPdo;
             if (isset($_GET["categoryId"])) {
-              $categorySum = $categoryDaoPdo -> countAllCategories();
+              $categorySum = $categoryDaoPdo->countAllCategories();
               if ($_GET["categoryId"] > $categorySum) {
                 echo '錯誤：不存在之分類';
               } else {
@@ -146,14 +146,17 @@
                 <div class="card-body">
                   <h4 class="card-title mb-3">' . $message->getTitle() . '</h4>
                   <h6 class="ms-2 mb-4">by ' . $user->getUserName() . '</h6>
-                  <h5 class="card-text mb-3">' . $message->getContent() . '</h5>
+                  <h5 id="content" class="card-text mb-3">' . $message->getContent() . '</h5>
                   <a href="\Frontend\BulletinBoardViewMessage.php?messageId=' . $message->getId() . '" class="btn btn-primary">查看更多</a>
                 </div>
               </div>
               ';
           }
         } else {
-          echo '<p>暫無留言。</p>';
+          echo '<a>暫無留言，點擊</a>';
+          echo '<a href="..\..\Frontend\BulletinBoardIndex.php">此處</a>';
+          echo '<a>去首頁。</a>';
+          exit;
         }
 
         // =============== 顯示留言區域 ===============
@@ -164,6 +167,7 @@
 
       <?php
       // 分頁或許另外寫一個獨立物件會比較好?
+      // 目前的設計規劃是因為每一種分頁導覽列需要網址列參數不一定，所以必須分開來設置
       // 分頁邏輯區域start
       $totalPages = $pageData['totalPages'];
       $currentPage = $pageData['currentPage'];
@@ -172,6 +176,7 @@
         echo '<div class="pageNavArea">
             <nav aria-label="Page navigation">
               <ul class="pagination">
+              <!-- 設定點擊後會跳轉的網址，拿到當前頁面後再減去1，並且確保page不會低於1 -->
                 <li class="page-item"><a class="page-link" href="?searchQuery=' . $_GET["searchQuery"] . '&page=' . max(1, $currentPage - 1) . '">Previous</a></li>';
         for ($i = 1; $i <= $totalPages; $i++) {
           if ($currentPage - 3 < $i && $i < $currentPage + 3) {
@@ -229,6 +234,24 @@
   </footer>
   <!--Footer 區域 end-->
   <!--===========================================================================-->
+  <script>
+    function limitText(contents, limit) {
+      // 把所有的元素都集合起來
+      var contents = document.querySelectorAll(contents);
+      // 用foreach處理每一個元素
+      contents.forEach(function(content) {
+        var text = content.innerText;
+        if (text.length > limit) {
+          var limitedText = text.slice(0, limit) + '...'; 
+          content.innerText = limitedText;
+        }
+      });
+    }
+
+    window.onload = function() {
+      limitText('#content', 50); 
+    };
+  </script>
 
 </body>
 

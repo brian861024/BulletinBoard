@@ -47,8 +47,7 @@
             <!-- 用來分辨要使用哪一個controller方法 -->
             <input type="hidden" name="functionName" value="newMessage">
 
-            <input type="text" class="pure-input-1 mt-2" name="messageTitle" id="messageTitle" placeholder="留言標題" value="<?php
-            session_start();
+            <input type="text" class="pure-input-1 mt-2" name="messageTitle" id="messageTitle" placeholder="留言標題 ( 上限 30 字 )" value="<?php
             if(isset($_SESSION['messageTitle'])){
               echo $_SESSION['messageTitle'];
             }
@@ -63,9 +62,9 @@
               <option value="6">遊戲</option>
               <option value="7">閒聊</option>
             </select>
-            <textarea class="pure-input-1 mb-2" name="messageContent" id="messageContent" placeholder="留言輸入區" style="height: 400px ;min-height: 100px;max-height: 400px"><?php 
+            <textarea class="pure-input-1 mb-2" name="messageContent" id="messageContent" placeholder="留言輸入區 ( 上限 300 字 )" style="height: 400px ;min-height: 100px;max-height: 400px"><?php 
             if(isset($_SESSION['messageContent'])){
-              echo $_SESSION['messageContent'];
+              echo nl2br($_SESSION['messageContent']);
             }
             ?></textarea>
           </fieldset>

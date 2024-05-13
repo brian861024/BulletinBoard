@@ -57,7 +57,7 @@
           <div class="historyMessageCard mb-4">
             <h5 class="card-header">' . $message->getTitle() . '</h5>
             <div class="card-body mb-3">
-              <p class="card-text">' . $message->getContent() . '</p>
+              <p id="content" class="card-text">' . $message->getContent() . '</p>
               <div style="text-align: right;">
               <a href="/Frontend/BulletinBoardUpdateMessage.php?messageId='. $message->getId() .'" class="btn btn btn-secondary">修改</a>
               <a href="\Frontend\BulletinBoardViewMessage.php?messageId='. $message->getId() .'" class="btn btn-primary ms-2">查看更多</a>
@@ -104,6 +104,25 @@
   </footer>
   <!--Footer 區域 end-->
   <!--===========================================================================-->
+
+  <script>
+    function limitText(contents, limit) {
+      // 把所有的元素都集合起來
+      var contents = document.querySelectorAll(contents);
+      // 用foreach處理每一個元素
+      contents.forEach(function(content) {
+        var text = content.innerText;
+        if (text.length > limit) {
+          var limitedText = text.slice(0, limit) + '...'; 
+          content.innerText = limitedText;
+        }
+      });
+    }
+
+    window.onload = function() {
+      limitText('#content', 50); 
+    };
+  </script>
 
 </body>
 

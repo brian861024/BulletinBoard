@@ -56,9 +56,22 @@
         }
         //先把這則message透過id取出來
         $message = $messageDaoPdo->findMessageById($messageId);
+        // 檢查message存不存在
+        if (!isset($message)) {
+          echo '錯誤：無修改之文章<br>';
+          echo '<a href="..\..\Frontend\BulletinBoardIndex.php">點擊此處去首頁。</a>';
+          exit;
+        }
         $user = $message->getUser();
         $messageUserId = $user->getId();
         $currentUserId = $_SESSION['userId'];
+        // 檢查文章的user跟登入中的user是否一致
+        if ($messageUserId !== $currentUserId ) {
+          echo '錯誤：此非您發表之留言<br>';
+          echo '<a href="..\..\Frontend\BulletinBoardIndex.php">點擊此處去首頁。</a>';
+          exit;
+        }
+
         $categoryId = $message->getCategory_id();
         ?>
 
