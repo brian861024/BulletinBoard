@@ -34,7 +34,7 @@ if (isset($_POST['functionName'])) {
 //登入/登出 區域 start
 // 1.登入
 function login(){
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name']) && isset($_POST['password'])) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name']) && isset($_POST['password']) && isset($_POST['otp'])) {
     $userController = new userController;
     $userController -> login();
     } else {

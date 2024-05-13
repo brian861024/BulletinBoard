@@ -11,49 +11,59 @@ class userController
     //1.一般使用者登入
     //邏輯：
     //。先將傳進來的資料做適當的處理
+    //。比對驗證碼
     //。輸入之userName是否存在資料庫?存在則比對密碼是否正確，不存在則回傳錯誤訊息
     //。比對密碼是否正確?正確則導入留言版主頁，錯誤則回傳錯誤訊息
     function login()
     {
         session_start();
         $name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
+        $otp = htmlspecialchars($_POST['otp'], ENT_QUOTES, 'UTF-8');
         $password_hash = hash('sha256', $_POST['password']);
         $userDaoPdo = new userDaoPdo;
+        // 透過使用者輸入的name來找整個使用者物件
+        $user = $userDaoPdo->findUserByUsername_ReturnUserObject($name);
 
-        if ($userDaoPdo->findUserByUserName($name)) {
-            // 透過使用者輸入的name來找整個使用者物件
-            $user = $userDaoPdo->findUserByUsername_ReturnUserObject($name);
-            if ($password_hash == $user->getPassword()) {
-                // 將登入的user資訊放入session
-                $_SESSION['userId'] = $user->getId();
-                $_SESSION['userName'] = $user->getUserName();
-                $_SESSION['userPassword'] = $user->getPassword();
-                $_SESSION['userEmail'] = $user->getEmail();
-                $_SESSION['userDateCreatedAt'] = $user->getDateCreatedAt();
-                $_SESSION['userDateUpdateAt'] = $user->getDateUpdateAt();
-                echo "<script type='text/javascript'>
+        if ($otp == $_SESSION['otp']) {
+            if ($userDaoPdo->findUserByUserName($name)) {
+                if ($password_hash == $user->getPassword()) {
+                    // 將登入的user資訊放入session
+                    $_SESSION['userId'] = $user->getId();
+                    $_SESSION['userName'] = $user->getUserName();
+                    $_SESSION['userPassword'] = $user->getPassword();
+                    $_SESSION['userEmail'] = $user->getEmail();
+                    $_SESSION['userDateCreatedAt'] = $user->getDateCreatedAt();
+                    $_SESSION['userDateUpdateAt'] = $user->getDateUpdateAt();
+                    echo "<script type='text/javascript'>
                 alert('登入成功，將前往主頁！');
                 </script>";
-                header("refresh:0;url=..\..\Frontend\BulletinBoardIndex.php");
-                exit;
-            } else {
-                // 存在使用者，把使用者名稱放至SESSION以利前端預設輸入
-                $_SESSION['userName'] =  $user->getUserName();
-                echo "<script type='text/javascript'>
+                    header("refresh:0;url=..\..\Frontend\BulletinBoardIndex.php");
+                    exit;
+                } else {
+                    // 存在使用者，把使用者名稱放至SESSION以利前端預設輸入
+                    $_SESSION['userName'] =  $user->getUserName();
+                    echo "<script type='text/javascript'>
                 alert('密碼錯誤');
                 </script>";
+                    header("refresh:0;url=..\..\Frontend\BulletinBoardLogin.php");
+                    exit;
+                }
+            } else {
+                echo "<script type='text/javascript'>
+            alert('查無使用者');
+            </script>";
                 header("refresh:0;url=..\..\Frontend\BulletinBoardLogin.php");
                 exit;
             }
         } else {
+            $_SESSION['userName'] =  $user->getUserName();
             echo "<script type='text/javascript'>
-            alert('查無使用者');
+            alert('驗證碼輸入錯誤');
             </script>";
             header("refresh:0;url=..\..\Frontend\BulletinBoardLogin.php");
             exit;
         }
     }
-
     //2.一般使用者登出
     //邏輯：
     //。確認SESSION裡存在使用者
@@ -76,32 +86,36 @@ class userController
     //註冊 區域 start
     //1.一般會員註冊
     //邏輯：
+    //。先將傳進來的資料做適當的處理
+    //。比對驗證碼
+    //。檢查使用者名稱是否小於20
+    //。檢查使用者名稱是否未含有中文跟特殊符號
+    //。檢查密碼是否長度為4
+    //。檢查密碼是否含中文跟特殊符號
     //。比對兩次輸入之密碼是否一致
     //。比對使用者名稱是否有重複
     //。比對使用者信箱是否有重複
     //。建立一個user物件來儲存使用者輸入之資料並且傳至Dao作寫入
     function register()
     {
+        session_start();
         $name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
         $email =  htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+        $otp = htmlspecialchars($_POST['otp'], ENT_QUOTES, 'UTF-8');
         $password1 = $_POST['password1'];
         $password2 = $_POST['password2'];
         $password1_hash = hash('sha256', $password1);
         $password2_hash = hash('sha256', $password2);
         $userDaoPdo = new userDaoPdo;
-        session_start();
 
-        if (strlen($password1) < 4 && !preg_match('/[\x{4e00}-\x{9fa5}]|[^A-Za-z0-9]/u', $password1)) {
-        }
-
-
-        //。比對兩次輸入的密碼是否相同
+        if ($otp == $_SESSION['otp']) {
         // 檢查使用者名稱是否小於20
         if (strlen($name) < 20) {
             // 檢查使用者名稱沒有含中文跟特殊符號
             if (!preg_match('/[\x{4e00}-\x{9fa5}]|[^A-Za-z0-9]/u', $name)) {
-                if (strlen($password1) < 4) {
+                if (strlen($password1) == 4) {
                     if (!preg_match('/[\x{4e00}-\x{9fa5}]|[^A-Za-z0-9]/u', $password1)) {
+                        //。比對兩次輸入的密碼是否相同
                         if ($password1_hash == $password2_hash) {
                             //。比對前端輸入的使用者名稱是否和資料庫的有重複
                             if ($userDaoPdo->findUserByUserName($name)) {
@@ -196,12 +210,24 @@ class userController
             header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
             exit;
         }
+    } else {
+        $_SESSION['registerName'] = $name;
+        $_SESSION['registerEmail'] = $email;
+        $_SESSION['$registerPassword1'] = $password1;
+        $_SESSION['$registerPassword2'] = $password2;
+        echo "<script type='text/javascript'>
+        alert('驗證碼輸入錯誤');
+        </script>";
+        header("refresh:0;url=..\..\Frontend\BulletinBoardLogin.php");
+        exit;
+    }
     }
     //註冊 區域 end
     //===========================================================================
     //修改資訊 區域 start
     //1.一般會員修改密碼
     //邏輯：
+    //。先將傳進來的資料做適當的處理
     //。比對舊密碼是否正確
     //。比對新密碼是否一致
     //。比對舊密碼和新密碼是否相同

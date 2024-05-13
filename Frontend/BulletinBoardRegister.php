@@ -44,6 +44,10 @@
                             <label for="aligned-email" style="text-align:left; padding-left: 10PX;">信箱</label>
                             <input type="email" id="email" name="email" class="pure-input-2-3" placeholder="example@gmail.com" value="<?php if(isset($_SESSION['registerEmail'])){echo $_SESSION['registerEmail'];} ?>" required />
                         </div>
+                        <div class="pure-control-group mt-4">
+                            <img src="../Backend/OTP.php" alt="" id="captchaImage" name="captchaImage"  style="margin-left: 5px;padding-left: 10PX;">
+                            <input type="text" id="otp" name="otp" class="pure-input-3 ms-5" placeholder="請輸入左側數字" required />
+                        </div>
                     </fieldset>
                     
                 </form>

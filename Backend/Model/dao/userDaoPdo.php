@@ -105,7 +105,7 @@ class userDaoPdo
     public function updateUserNameById($userId, $newUsername)
     {
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
-        $sql = "UPDATE users , updated_at = NOW() SET username = :username WHERE id = :id";
+        $sql = "UPDATE users SET username = :username , updated_at = NOW() WHERE id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             'username' => $newUsername,
@@ -119,7 +119,7 @@ class userDaoPdo
     public function updatePasswordById($userId, $newPassword)
     {
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
-        $sql = "UPDATE users , updated_at = NOW() SET password = :password WHERE id = :id";
+        $sql = "UPDATE users SET password = :password , updated_at = NOW() WHERE id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             'password' => $newPassword,
@@ -133,7 +133,7 @@ class userDaoPdo
     public function updateEmailById($userId, $newEmail)
     {
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
-        $sql = "UPDATE users , updated_at = NOW() SET email = :email WHERE id = :id";
+        $sql = "UPDATE users SET email = :email , updated_at = NOW() WHERE id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             'email' => $newEmail,

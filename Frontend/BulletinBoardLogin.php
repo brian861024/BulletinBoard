@@ -29,18 +29,21 @@
 
                         <div class="pure-control-group">
                             <label for="name" style="text-align:left; padding-left: 10PX;">用戶名稱</label>
-                            <input type="text" id="name" name="name" class="pure-input-2-3" placeholder="Username" value = "<?php
-                            // 密碼輸入錯誤後會自動帶入使用者名稱
-                            session_start();
-                            if(isset($_SESSION['userName'])){
-                                echo $_SESSION['userName'];
-                            }
-                            ?>"
-                            required />
+                            <input type="text" id="name" name="name" class="pure-input-2-3" placeholder="Username" value="<?php
+                                                                                                                            // 密碼輸入錯誤後會自動帶入使用者名稱
+                                                                                                                            session_start();
+                                                                                                                            if (isset($_SESSION['userName'])) {
+                                                                                                                                echo $_SESSION['userName'];
+                                                                                                                            }
+                                                                                                                            ?>" required />
                         </div>
                         <div class="pure-control-group">
                             <label for="password" style="text-align:left; padding-left: 10PX;">密碼</label>
                             <input type="password" id="password" name="password" class="pure-input-2-3" placeholder="Password" required />
+                        </div>
+                        <div class="pure-control-group mt-4">
+                            <img src="../Backend/OTP.php" alt="" id="captchaImage" name="captchaImage"  style="margin-left: 5px;padding-left: 10PX;">
+                            <input type="text" id="otp" name="otp" class="pure-input-3 ms-5" placeholder="請輸入左側數字" required />
                         </div>
                     </fieldset>
                 </form>
@@ -51,7 +54,7 @@
                     <button type="submit" class="pure-button" form="loginForm">登入</button>
                 </div>
                 <div class="Button">
-                    <button onclick="window.location.href='./BulletinBoardRegister.php'" class="pure-button">註冊</button>
+                    <button onclick="window.location.href='./BulletinBoardRegister.php'" class="pure-button">前往註冊</button>
                 </div>
             </div>
         </div>
