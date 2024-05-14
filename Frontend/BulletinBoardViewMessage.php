@@ -65,12 +65,16 @@
       ?>
 
       <div class="viewMassageTitle mb-2">
+
         <div class="viewMassageTitleColorBar"></div>
         <h2> <?php echo $message->getTitle() ?> </h2>
       </div>
 
       <div class="InfoArea mt-4 p-4">
-        <div class="authorInfoArea">
+        <div class="authorInfoArea d-flex">
+          <div>
+            <img class="userPic" src="<?php echo $user->getPicPath() ?>" style="height:100px;border-radius: 5px;">
+          </div>
           <div class="authorName ms-4">
             <h5>作者：<?php echo $user->getUserName(); ?> </h5>
             <h>加入時間：<?php echo $user->getDateCreatedAt(); ?> </h>

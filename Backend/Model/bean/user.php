@@ -5,6 +5,7 @@ class user {
     private $str_userName;
     private $str_password;
     private $str_email;
+    private $str_picPath;
     private $date_created_at;
     private $date_updated_at;
 
@@ -56,6 +57,16 @@ class user {
     public function getEmail()
     {
         return $this->str_email;
+    }
+
+    public function setPicPath($picPath)
+    {
+        $this->str_picPath = $picPath;
+    }
+
+    public function getPicPath()
+    {
+        return $this->str_picPath;
     }
 
     public function setDateCreatedAt($date_created_at)

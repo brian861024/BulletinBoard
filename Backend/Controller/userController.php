@@ -32,6 +32,7 @@ class userController
                     $_SESSION['userName'] = $user->getUserName();
                     $_SESSION['userPassword'] = $user->getPassword();
                     $_SESSION['userEmail'] = $user->getEmail();
+                    $_SESSION['userPicPath'] = $user->getPicPath();
                     $_SESSION['userDateCreatedAt'] = $user->getDateCreatedAt();
                     $_SESSION['userDateUpdateAt'] = $user->getDateUpdateAt();
                     echo "<script type='text/javascript'>
@@ -64,6 +65,7 @@ class userController
             exit;
         }
     }
+
     //2.一般使用者登出
     //邏輯：
     //。確認SESSION裡存在使用者
@@ -99,6 +101,7 @@ class userController
     function register()
     {
         session_start();
+        // htmlspecialchars() 函数把一些预定义的字符转换为 HTML 实体。
         $name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
         $email =  htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
         $otp = htmlspecialchars($_POST['otp'], ENT_QUOTES, 'UTF-8');
@@ -109,51 +112,63 @@ class userController
         $userDaoPdo = new userDaoPdo;
 
         if ($otp == $_SESSION['otp']) {
-        // 檢查使用者名稱是否小於20
-        if (strlen($name) < 20) {
-            // 檢查使用者名稱沒有含中文跟特殊符號
-            if (!preg_match('/[\x{4e00}-\x{9fa5}]|[^A-Za-z0-9]/u', $name)) {
-                if (strlen($password1) == 4) {
-                    if (!preg_match('/[\x{4e00}-\x{9fa5}]|[^A-Za-z0-9]/u', $password1)) {
-                        //。比對兩次輸入的密碼是否相同
-                        if ($password1_hash == $password2_hash) {
-                            //。比對前端輸入的使用者名稱是否和資料庫的有重複
-                            if ($userDaoPdo->findUserByUserName($name)) {
-                                unset($_SESSION['registerName']);
-                                $_SESSION['registerEmail'] = $email;
-                                $_SESSION['$registerPassword1'] = $password1;
-                                $_SESSION['$registerPassword2'] = $password2;
-                                echo "<script type='text/javascript'>
-                                alert('使用者名稱已存在');
-                                </script>";
-                                header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
-                                exit;
-                            } else {
-                                //。比對前端輸入的使用者信箱是否和資料庫的有重複
-                                if ($userDaoPdo->findUserByEmail($email)) {
-                                    $_SESSION['registerName'] = $name;
-                                    unset($_SESSION['registerEmail']);
+            // 檢查使用者名稱是否小於20
+            if (strlen($name) < 20) {
+                // 檢查使用者名稱沒有含中文跟特殊符號
+                if (!preg_match('/[\x{4e00}-\x{9fa5}]|[^A-Za-z0-9]/u', $name)) {
+                    if (strlen($password1) == 4) {
+                        if (!preg_match('/[\x{4e00}-\x{9fa5}]|[^A-Za-z0-9]/u', $password1)) {
+                            //。比對兩次輸入的密碼是否相同
+                            if ($password1_hash == $password2_hash) {
+                                //。比對前端輸入的使用者名稱是否和資料庫的有重複
+                                if ($userDaoPdo->findUserByUserName($name)) {
+                                    // 當發生錯誤的時候，原本輸入的預存到session，再在前端提取
+                                    unset($_SESSION['registerName']);
+                                    $_SESSION['registerEmail'] = $email;
                                     $_SESSION['$registerPassword1'] = $password1;
                                     $_SESSION['$registerPassword2'] = $password2;
                                     echo "<script type='text/javascript'>
-                                    alert('信箱已註冊');
+                                    alert('使用者名稱已存在');
                                     </script>";
                                     header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
                                     exit;
                                 } else {
-                                    //。建立一個user物件來儲存使用者輸入之資料並且傳至Dao作寫入
-                                    $user = new user;
-                                    $user->setUserName($name);
-                                    $user->setPassword($password1_hash);
-                                    $user->setEmail($email);
-                                    $userDaoPdo->addUser($user);
-                                    echo "<script type='text/javascript'>
-                                    alert('已註冊。您將回到登入頁面。');
-                                    </script>";
-                                    session_destroy();
-                                    header("refresh:0;url=..\..\Frontend\BulletinBoardLogin.php");
-                                    exit;
+                                    //。比對前端輸入的使用者信箱是否和資料庫的有重複
+                                    if ($userDaoPdo->findUserByEmail($email)) {
+                                        $_SESSION['registerName'] = $name;
+                                        unset($_SESSION['registerEmail']);
+                                        $_SESSION['$registerPassword1'] = $password1;
+                                        $_SESSION['$registerPassword2'] = $password2;
+                                        echo "<script type='text/javascript'>
+                                        alert('信箱已註冊');
+                                        </script>";
+                                        header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
+                                        exit;
+                                    } else {
+                                        //。建立一個user物件來儲存使用者輸入之資料並且傳至Dao作寫入
+                                        $user = new user;
+                                        $user->setUserName($name);
+                                        $user->setPassword($password1_hash);
+                                        $user->setEmail($email);
+                                        $userDaoPdo->addUser($user);
+                                        echo "<script type='text/javascript'>
+                                        alert('已註冊。您將回到登入頁面。');
+                                        </script>";
+                                        session_destroy();
+                                        header("refresh:0;url=..\..\Frontend\BulletinBoardLogin.php");
+                                        exit;
+                                    }
                                 }
+                            } else {
+                                $_SESSION['registerName'] = $name;
+                                $_SESSION['registerEmail'] = $email;
+                                unset($_SESSION['$registerPassword1']);
+                                unset($_SESSION['$registerPassword2']);
+                                echo "<script type='text/javascript'>
+                                alert('兩次密碼不相同');
+                                </script>";
+                                header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
+                                exit;
                             }
                         } else {
                             $_SESSION['registerName'] = $name;
@@ -161,7 +176,7 @@ class userController
                             unset($_SESSION['$registerPassword1']);
                             unset($_SESSION['$registerPassword2']);
                             echo "<script type='text/javascript'>
-                            alert('兩次密碼不相同');
+                            alert('密碼包含中文或特殊符號');
                             </script>";
                             header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
                             exit;
@@ -172,19 +187,19 @@ class userController
                         unset($_SESSION['$registerPassword1']);
                         unset($_SESSION['$registerPassword2']);
                         echo "<script type='text/javascript'>
-                            alert('密碼包含中文或特殊符號');
-                            </script>";
+                        alert('密碼長度不符');
+                        </script>";
                         header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
                         exit;
                     }
                 } else {
-                    $_SESSION['registerName'] = $name;
+                    unset($_SESSION['registerName']);
                     $_SESSION['registerEmail'] = $email;
-                    unset($_SESSION['$registerPassword1']);
-                    unset($_SESSION['$registerPassword2']);
+                    $_SESSION['$registerPassword1'] = $password1;
+                    $_SESSION['$registerPassword2'] = $password2;
                     echo "<script type='text/javascript'>
-                        alert('密碼長度不符');
-                        </script>";
+                    alert('使用者名稱包含中文或特殊符號');
+                    </script>";
                     header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
                     exit;
                 }
@@ -194,33 +209,22 @@ class userController
                 $_SESSION['$registerPassword1'] = $password1;
                 $_SESSION['$registerPassword2'] = $password2;
                 echo "<script type='text/javascript'>
-                alert('使用者名稱包含中文或特殊符號');
+                alert('使用者名稱超過20字');
                 </script>";
                 header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
                 exit;
             }
         } else {
-            unset($_SESSION['registerName']);
+            $_SESSION['registerName'] = $name;
             $_SESSION['registerEmail'] = $email;
             $_SESSION['$registerPassword1'] = $password1;
             $_SESSION['$registerPassword2'] = $password2;
             echo "<script type='text/javascript'>
-                alert('使用者名稱超過20字');
-                </script>";
+            alert('驗證碼輸入錯誤');
+            </script>";
             header("refresh:0;url=..\..\Frontend\BulletinBoardRegister.php");
             exit;
         }
-    } else {
-        $_SESSION['registerName'] = $name;
-        $_SESSION['registerEmail'] = $email;
-        $_SESSION['$registerPassword1'] = $password1;
-        $_SESSION['$registerPassword2'] = $password2;
-        echo "<script type='text/javascript'>
-        alert('驗證碼輸入錯誤');
-        </script>";
-        header("refresh:0;url=..\..\Frontend\BulletinBoardLogin.php");
-        exit;
-    }
     }
     //註冊 區域 end
     //===========================================================================
@@ -278,6 +282,7 @@ class userController
 
     //2.一般會員修改信箱
     //邏輯：
+    //。先將傳進來的資料做適當的處理
     //。比對舊信箱是否正確
     //。比對舊信箱和新信箱是否相同
     //。比對新信箱是否存在
@@ -302,8 +307,8 @@ class userController
                     //。將新信箱設定至資料庫
                     $userDaoPdo->updateEmailById($_SESSION['userId'], $newEmail);
                     echo "<script type='text/javascript'>
-                alert('信箱更新成功，將重導至首頁。');
-                </script>";
+                    alert('信箱更新成功，將重導至首頁。');
+                    </script>";
                     header("refresh:0;url=..\..\Frontend\BulletinBoardIndex.php");
                     exit;
                 } else {
@@ -323,6 +328,43 @@ class userController
         }
     }
 
+    //3.一般會員上傳頭貼
+    //。檢查後綴名是否為圖檔
+    //。重新為圖檔命名
+    //。把檔案從預設路徑放置到設定路徑
+    //。用絕對路徑讀不到檔案，所以用相對路徑更新資料庫路徑和session路徑
+    function updatePic(){
+        $file = $_FILES['userPic'];
+        $userDaoPdo = new userDaoPdo;
+        session_start();
+        // 取出檔案的後綴名
+        $ext = strrchr($file['name'],'.');
+        // 比對後綴名是否為以下
+        if(preg_match('/\.png|\.img|\.jpg|\.jpeg/', $ext)){
+            // 給予檔案一個新名字，隨機的四碼加當前時間
+            $newName = mt_rand(0000, 9999).time().$ext;
+            // 設定路徑
+            $setPath = 'C:\htdocs\img\pic\\' . $newName;
+            // 把檔案從預設路徑放置到設定路徑
+            move_uploaded_file($file['tmp_name'], $setPath);
+            // 用絕對路徑讀不到檔案，所以用相對路徑來抓
+            $path = '/img/pic/' . $newName;
+            // 用Dao把資料庫的路徑資料更新
+            $userDaoPdo -> updateUserPicById($_SESSION['userId'], $path);
+            // 存放到session，可以即時更新更換後的圖像
+            $_SESSION['userPicPath'] = $path;
+            header("refresh:0;url=..\..\Frontend\BulletinBoardUserInfo.php");
+        } else {
+            echo "<script type='text/javascript'>
+            alert('上傳檔案格式錯誤');
+            </script>";
+            header("refresh:0;url=..\..\Frontend\BulletinBoardUserInfo.php");
+            exit;
+        }
+    }
+
     //修改資訊 區域 end
     //===========================================================================
 }
+
+

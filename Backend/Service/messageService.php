@@ -104,14 +104,6 @@ function findMessageByUserId()
 // 3.
 function findMessageByCategory()
 {
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['categoryId'])) {
-        
-    } else {
-        echo "<script type='text/javascript'>
-        alert('無此分類');
-        </script>";
-        header("refresh:0;url=..\..\Frontend\BulletinBoardIndex.php");
-    }
 }
 //查詢訊息 區域 end
 //===========================================================================

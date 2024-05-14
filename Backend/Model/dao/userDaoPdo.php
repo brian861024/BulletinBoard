@@ -12,7 +12,7 @@ class userDaoPdo
     public function findUserByUsername_ReturnUserObject($userName)
     {
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
-        $sql = "SELECT id, userName, password, email, updated_at, created_at FROM users WHERE userName = :userName";
+        $sql = "SELECT id, userName, password, email, picPath, updated_at, created_at FROM users WHERE userName = :userName";
         // executeQuery()自定義函數 回傳一個 物件 至 自定義變數$stmt
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
@@ -27,8 +27,9 @@ class userDaoPdo
             $user->setUsername($userData['userName']);
             $user->setPassword($userData['password']);
             $user->setEmail($userData['email']);
-            $user->setDateCreatedAt($userData['updated_at']);
-            $user->setDateUpdateAt($userData['created_at']);
+            $user->setPicPath($userData['picPath']);
+            $user->setDateCreatedAt($userData['created_at']);
+            $user->setDateUpdateAt($userData['updated_at']);
             return $user;
         } else {
             return null;
@@ -38,7 +39,7 @@ class userDaoPdo
     // 2.透過userId查user物件
     public function findUserByUserId($id){
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
-        $sql = "SELECT id, userName, password, email, updated_at, created_at FROM users WHERE id = :id";
+        $sql = "SELECT id, userName, password, email, picPath, updated_at, created_at FROM users WHERE id = :id";
         // executeQuery()自定義函數 回傳一個 物件 至 自定義變數$stmt
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
@@ -53,8 +54,9 @@ class userDaoPdo
             $user->setUsername($userData['userName']);
             $user->setPassword($userData['password']);
             $user->setEmail($userData['email']);
-            $user->setDateCreatedAt($userData['updated_at']);
-            $user->setDateUpdateAt($userData['created_at']);
+            $user->setPicPath($userData['picPath']);
+            $user->setDateCreatedAt($userData['created_at']);
+            $user->setDateUpdateAt($userData['updated_at']);
             return $user;
         } else {
             return null;
@@ -101,7 +103,8 @@ class userDaoPdo
 
     // 註冊 區域 end
     // ===========================================================================
-    // 修改用戶名稱 區域 start
+    // 修改會員資訊 區域 start
+    //1.透過id修改使用者名稱
     public function updateUserNameById($userId, $newUsername)
     {
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
@@ -113,9 +116,7 @@ class userDaoPdo
         ]);
     }
 
-    // 修改用戶名稱 區域 end
-    // ===========================================================================
-    // 修改密碼 區域 start
+    //2.透過id修改使用者密碼
     public function updatePasswordById($userId, $newPassword)
     {
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
@@ -127,9 +128,7 @@ class userDaoPdo
         ]);
     }
 
-    // 修改密碼 區域 end
-    // ===========================================================================
-    // 修改Email 區域 start
+    //3.透過id修改使用者信箱
     public function updateEmailById($userId, $newEmail)
     {
         $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
@@ -141,7 +140,18 @@ class userDaoPdo
         ]);
     }
 
-    // 修改Email 區域 end
+    //4.透過id修改使用者頭貼
+    public function updateUserPicById($userId, $picPath)
+    {
+        $pdo = new PDO("mysql:host=localhost;dbname=db;charset=utf8", "root", "1111");
+        $sql = "UPDATE users SET picPath = :picPath , updated_at = NOW() WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'picPath' => $picPath,
+            'id' => $userId
+        ]);
+    }
+    // 修改會員資訊 區域 end
     // ===========================================================================
 
 }

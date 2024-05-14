@@ -1,5 +1,4 @@
 <?php
-
 echo '
 <div class="leftSectionArea">
 <div class="navbarArea">
@@ -15,6 +14,7 @@ echo '
 
 <?php
 // 這邊必須用require_once，因為前面messageController有require
+// require_once函數：require_once 表达式和 require 表达式完全相同，唯一区别是 PHP 会检查该文件是否已经被包含过，如果是则不会再次包含。
   require_once '/htdocs/Backend/Model/dao/categoryDaoPdo.php';
   $categoryDaoPdo = new categoryDaoPdo();
   $categories = $categoryDaoPdo->findAllCategories();

@@ -38,17 +38,18 @@ echo '
             <li class="nav-item">
               <a class="nav-link" href="../Frontend/BulletinBoardHistoryMessage.php">歷史留言</a>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown"  href="../Frontend/BulletinBoardUserInfo.php">
               <a class="nav-link dropdown-toggle ms-3"  id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               會員中心
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item fs-5" href="../Frontend/BulletinBoardUserInfo.php">會員資訊</a></li>
                 <li><a class="dropdown-item fs-5" href="../Frontend/BulletinBoardUpdateEmail.php">信箱修改</a></li>
                 <li><a class="dropdown-item fs-5" href="../Frontend/BulletinBoardUpdatePassword.php">密碼修改</a></li>
                 <hr>
                 <li><a class="dropdown-item fs-5" onclick="logout()"> 登出 </a></li>
               </ul>
-            </li>
+            </.li>
             <li class="nav-item ms-4">
             <a class="nav-link">' . $userName . '，你好</a>
             </li>

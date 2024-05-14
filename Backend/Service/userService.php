@@ -23,6 +23,9 @@ if (isset($_POST['functionName'])) {
         case 'updateEmail':
             updateEmail();
             break;
+        case 'updatePic':
+            updatePic();
+            break;
         default:
             echo '未知的functionName';
             // 當 functionName 沒有被指定時，返回錯誤訊息
@@ -33,10 +36,11 @@ if (isset($_POST['functionName'])) {
 //===========================================================================
 //登入/登出 區域 start
 // 1.登入
-function login(){
+function login()
+{
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name']) && isset($_POST['password']) && isset($_POST['otp'])) {
-    $userController = new userController;
-    $userController -> login();
+        $userController = new userController;
+        $userController->login();
     } else {
         echo "<script type='text/javascript'>
         alert('未使用POST方法傳送表單，或者表單欄位空缺');
@@ -46,10 +50,11 @@ function login(){
 }
 
 // 2.登出 
-function logout(){
+function logout()
+{
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $userController = new userController;
-        $userController -> logout();
+        $userController->logout();
     } else {
         echo "<script type='text/javascript'>
         alert('無登入中之使用者');
@@ -62,10 +67,11 @@ function logout(){
 //===========================================================================
 //新增用戶 區域 start
 // 1.註冊
-function register(){
+function register()
+{
     if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['name']) && !empty($_POST['password1']) && !empty($_POST['password2']) && !empty($_POST['email'])) {
         $userController = new userController;
-        $userController -> register();
+        $userController->register();
     } else {
         echo "<script type='text/javascript'>
         alert('未使用POST方法傳送表單，或者表單欄位空缺');
@@ -79,10 +85,11 @@ function register(){
 //===========================================================================
 //修改資訊 區域 start
 // 1.修改密碼
-function updatePassword(){
+function updatePassword()
+{
     if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['previousPassword']) && !empty($_POST['newPassword1']) && !empty($_POST['newPassword2'])) {
         $userController = new userController;
-        $userController -> updatePassword();
+        $userController->updatePassword();
     } else {
         echo "<script type='text/javascript'>
         alert('未使用POST方法傳送表單，或者表單欄位空缺');
@@ -92,10 +99,25 @@ function updatePassword(){
 }
 
 // 2.修改信箱
-function updateEmail(){
+function updateEmail()
+{
     if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['previousEmail']) && !empty($_POST['newEmail'])) {
         $userController = new userController;
-        $userController -> updateEmail();
+        $userController->updateEmail();
+    } else {
+        echo "<script type='text/javascript'>
+        alert('未使用POST方法傳送表單，或者表單欄位空缺');
+        </script>";
+        header("refresh:0;url=..\..\Frontend\BulletinBoardUpdateEmail.php");
+    }
+}
+
+// 3.上傳頭貼
+function updatePic()
+{
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_FILES['userPic'])) {
+        $userController = new userController;
+        $userController->updatePic();
     } else {
         echo "<script type='text/javascript'>
         alert('未使用POST方法傳送表單，或者表單欄位空缺');
@@ -105,5 +127,3 @@ function updateEmail(){
 }
 //修改資訊 區域 end
 //===========================================================================
-
-?>

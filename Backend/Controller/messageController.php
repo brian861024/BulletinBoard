@@ -21,10 +21,10 @@ class messageController
         session_start();
         $messageDaoPdo = new messageDaoPdo;
 
-        //。比對標題是否多於30字，utf-8編碼中中文字數大部分是三個字符
-        if (strlen($messageTitle) < 90) {
+        //。比對標題是否多於30字
+        if (mb_strlen($messageTitle) < 30) {
             //。比對內容是否多於300字
-            if (strlen($messageContent) < 900) {
+            if (mb_strlen($messageContent) < 300) {
                 //。創立一個Message物件寫入資料後丟到Dao寫入資料庫
                 $message = new message;
                 $message->setUser_id($_SESSION['userId']);
@@ -109,14 +109,13 @@ class messageController
         $messageContent = htmlspecialchars($_POST['messageContent'], ENT_QUOTES, 'UTF-8');
         $messageTitle = htmlspecialchars($_POST['messageTitle'], ENT_QUOTES, 'UTF-8');
         $categoryId = $_POST['categoryId'];
-        session_start();
         $messageDaoPdo = new messageDaoPdo;
         if($currentUserId == $_SESSION['userId']){
             if($currentUserId == $messageUserId){
-                //。比對標題是否多於30字，utf-8編碼中中文字數大部分是三個字符
-                if (strlen($messageTitle) < 90) {
+                //。比對標題是否多於30字
+                if (mb_strlen($messageTitle) < 30) {
                     //。比對內容是否多於300字
-                    if (strlen($messageContent) < 900) {
+                    if (mb_strlen($messageContent) < 300) {
                         //。創立一個Message物件寫入資料後丟到Dao寫入資料庫
                         $message = new message;
                         $message->setId($messageId);

@@ -30,7 +30,7 @@
 
     <!-- 左側導覽列 -->
 
-    <?php include 'C:\htdocs\Frontend\fragments\BulletinBoardLeftNavbar.php'; ?>
+    <?php include 'C:/htdocs/Frontend/fragments/BulletinBoardUserInfoLeftNavbar.php'; ?>
 
     <!-- 右側內容區域 -->
     <div class="rightSectionArea">
