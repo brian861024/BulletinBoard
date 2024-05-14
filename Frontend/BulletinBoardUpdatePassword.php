@@ -52,7 +52,7 @@
               <label for="password">原本的密碼</label>
               <input type="password" id="previousPassword" name="previousPassword" placeholder="請輸入原密碼" class="pure-input-1 mb-4" />
               <label for="newPassword">新密碼</label>
-              <input type="password" id="newPassword1" name="newPassword1" placeholder="在此輸入新密碼" class="pure-input-1" />
+              <input type="password" id="newPassword1" name="newPassword1" placeholder="在此輸入新密碼，4位數，英文或數字" class="pure-input-1" />
               <label for="newPassword">確認密碼</label>
               <input type="password" id="newPassword2" name="newPassword2" placeholder="再次輸入新密碼" class="pure-input-1" />
 

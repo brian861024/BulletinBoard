@@ -46,7 +46,6 @@
 
         <?php
         $messageDaoPdo = new messageDaoPdo;
-        session_start();
         // 先檢查導覽列有沒有messageid，沒有就給一個null，以免dao報錯
         $messageId = $_GET["messageId"] ?? null;
         if (!isset($messageId)) {

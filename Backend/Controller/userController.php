@@ -239,44 +239,60 @@ class userController
     function updatePassword()
     {
         $previousPassword_hash = hash('sha256', $_POST['previousPassword']);
+        $newPassword1 = $_POST['newPassword1'];
+        $newPassword2 = $_POST['newPassword2'];
         $password1_hash = hash('sha256', $_POST['newPassword1']);
         $password2_hash = hash('sha256', $_POST['newPassword2']);
         $userDaoPdo = new userDaoPdo;
         session_start();
         //。比對舊密碼是否正確
-        if ($previousPassword_hash == $_SESSION['userPassword']) {
-            //。比對新密碼是否一致
-            if ($password1_hash == $password2_hash) {
-                //。比對舊密碼和新密碼是否相同
-                if ($previousPassword_hash != $password1_hash) {
-                    //。將新密碼設定至資料庫
-                    $userDaoPdo->updatePasswordById($_SESSION['userId'], $password1_hash);
-                    echo "<script type='text/javascript'>
-                    alert('密碼更新成功，請用新密碼重新登入');
-                    </script>";
-                    session_destroy();
-                    header("refresh:0;url=..\..\Frontend\BulletinBoardLogin.php");
-                    exit;
+        if (strlen($newPassword1) == 4) {
+            if (!preg_match('/[\x{4e00}-\x{9fa5}]|[^A-Za-z0-9]/u', $newPassword1)) {
+                if ($previousPassword_hash == $_SESSION['userPassword']) {
+                    //。比對新密碼是否一致
+                    if ($password1_hash == $password2_hash) {
+                        //。比對舊密碼和新密碼是否相同
+                        if ($previousPassword_hash != $password1_hash) {
+                            //。將新密碼設定至資料庫
+                            $userDaoPdo->updatePasswordById($_SESSION['userId'], $password1_hash);
+                            echo "<script type='text/javascript'>
+                            alert('密碼更新成功，請用新密碼重新登入');
+                            </script>";
+                            session_destroy();
+                            header("refresh:0;url=..\..\Frontend\BulletinBoardLogin.php");
+                            exit;
+                        } else {
+                            echo "<script type='text/javascript'>
+                            alert('原密碼與新密碼相同！');
+                            </script>";
+                            header("refresh:0;url=..\..\Frontend\BulletinBoardUpdatePassword.php");
+                            exit;
+                        }
+                    } else {
+                        echo "<script type='text/javascript'>
+                        alert('新密碼兩次輸入不一致');
+                        </script>";
+                        header("refresh:0;url=..\..\Frontend\BulletinBoardUpdatePassword.php");
+                        exit;
+                    }
                 } else {
                     echo "<script type='text/javascript'>
-                    alert('原密碼與新密碼相同！');
+                    alert('原密碼輸入錯誤');
                     </script>";
                     header("refresh:0;url=..\..\Frontend\BulletinBoardUpdatePassword.php");
                     exit;
                 }
             } else {
                 echo "<script type='text/javascript'>
-                alert('新密碼兩次輸入不一致');
+                alert('密碼包含中文或特殊符號');
                 </script>";
                 header("refresh:0;url=..\..\Frontend\BulletinBoardUpdatePassword.php");
-                exit;
             }
         } else {
             echo "<script type='text/javascript'>
-            alert('原密碼輸入錯誤');
+            alert('密碼長度不符');
             </script>";
             header("refresh:0;url=..\..\Frontend\BulletinBoardUpdatePassword.php");
-            exit;
         }
     }
 
@@ -333,16 +349,17 @@ class userController
     //。重新為圖檔命名
     //。把檔案從預設路徑放置到設定路徑
     //。用絕對路徑讀不到檔案，所以用相對路徑更新資料庫路徑和session路徑
-    function updatePic(){
+    function updatePic()
+    {
         $file = $_FILES['userPic'];
         $userDaoPdo = new userDaoPdo;
         session_start();
         // 取出檔案的後綴名
-        $ext = strrchr($file['name'],'.');
+        $ext = strrchr($file['name'], '.');
         // 比對後綴名是否為以下
-        if(preg_match('/\.png|\.img|\.jpg|\.jpeg/', $ext)){
+        if (preg_match('/\.png|\.img|\.jpg|\.jpeg/', $ext)) {
             // 給予檔案一個新名字，隨機的四碼加當前時間
-            $newName = mt_rand(0000, 9999).time().$ext;
+            $newName = mt_rand(0000, 9999) . time() . $ext;
             // 設定路徑
             $setPath = 'C:\htdocs\img\pic\\' . $newName;
             // 把檔案從預設路徑放置到設定路徑
@@ -350,7 +367,7 @@ class userController
             // 用絕對路徑讀不到檔案，所以用相對路徑來抓
             $path = '/img/pic/' . $newName;
             // 用Dao把資料庫的路徑資料更新
-            $userDaoPdo -> updateUserPicById($_SESSION['userId'], $path);
+            $userDaoPdo->updateUserPicById($_SESSION['userId'], $path);
             // 存放到session，可以即時更新更換後的圖像
             $_SESSION['userPicPath'] = $path;
             header("refresh:0;url=..\..\Frontend\BulletinBoardUserInfo.php");
@@ -366,5 +383,3 @@ class userController
     //修改資訊 區域 end
     //===========================================================================
 }
-
-
