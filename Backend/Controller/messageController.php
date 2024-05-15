@@ -205,7 +205,13 @@ class messageController
             $page = 1;
         } else {
             // 確認頁數只能夠是數值資料
-            $page = intval($_GET["page"]);
+            if(!intval($_GET["page"])){
+                $page = 1;
+                echo "<script type='text/javascript'>
+                alert('警告，頁數必須為數字');
+                </script>";
+                } else {$page = $_GET["page"];
+            }
         }
         // 當前頁面該從哪一個留言開始
         $startMessage = ($page - 1) * $messagesPerPage;

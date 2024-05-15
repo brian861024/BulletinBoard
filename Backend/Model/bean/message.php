@@ -5,7 +5,8 @@ require_once '/htdocs/Backend/Model/dao/categoryDaoPdo.php';
 require_once '/htdocs/Backend/Model/bean/user.php';
 require_once '/htdocs/Backend/Model/bean/category.php';
 
-class message {
+class message
+{
     private $int_id;
     private $int_user_id;
     private $int_category_id;
@@ -19,90 +20,99 @@ class message {
 
     public function __construct()
     {
-        $this->int_user_id;
-        $this->int_category_id;
-        $this->str_title;
-        $this->str_content;
-        $this->date_created_at;
-        $this->date_updated_at;
     }
-    
-    public function setId($id){
+
+    public function setId($id)
+    {
         $this->int_id = $id;
     }
 
-    public function getId(){
+    public function getId()
+    {
         return $this->int_id;
     }
 
-    public function setUser_id($user_id){
+    public function setUser_id($user_id)
+    {
         $this->int_user_id = $user_id;
     }
 
-    public function getUser_id(){
+    public function getUser_id()
+    {
         return $this->int_user_id;
     }
 
-    public function setCategory_id($category_id){
+    public function setCategory_id($category_id)
+    {
         $this->int_category_id = $category_id;
     }
 
-    public function getCategory_id(){
+    public function getCategory_id()
+    {
         return $this->int_category_id;
     }
 
-    public function setTitle($title){
+    public function setTitle($title)
+    {
         $this->str_title = $title;
     }
 
-    public function getTitle(){
+    public function getTitle()
+    {
         return $this->str_title;
     }
 
-    public function setContent($content){
+    public function setContent($content)
+    {
         $this->str_content = $content;
     }
 
-    public function getContent(){
+    public function getContent()
+    {
         return $this->str_content;
     }
 
-    public function setDateCreatedAt($date_created_at){
+    public function setDateCreatedAt($date_created_at)
+    {
         $this->date_created_at = $date_created_at;
     }
 
-    public function getDateCreatedAt(){
+    public function getDateCreatedAt()
+    {
         return $this->date_created_at;
     }
 
-    public function setDateUpdateAt($date_updated_at){
+    public function setDateUpdateAt($date_updated_at)
+    {
         $this->date_updated_at = $date_updated_at;
     }
 
-    public function getDateUpdateAt(){
+    public function getDateUpdateAt()
+    {
         return $this->date_updated_at;
     }
 
-    public function setUserIntoMessage(){
+    public function setUserIntoMessage()
+    {
         $userDaoPdo = new userDaoPdo;
-        $user = $userDaoPdo -> findUserByUserId($this->getUser_id());
+        $user = $userDaoPdo->findUserByUserId($this->getUser_id());
         $this->obj_user = $user;
     }
 
-    public function getUser(){
+    public function getUser()
+    {
         return $this->obj_user;
     }
 
-    public function setCategoryIntoMessage(){
+    public function setCategoryIntoMessage()
+    {
         $categoryDaoPdo = new categoryDaoPdo;
-        $category = $categoryDaoPdo -> findCategoryById($this->getCategory_id());
+        $category = $categoryDaoPdo->findCategoryById($this->getCategory_id());
         $this->str_category = $category;
     }
 
-    public function getCategory(){
+    public function getCategory()
+    {
         return $this->str_category;
     }
-
 }
-
-?>

@@ -70,8 +70,8 @@ class messageDaoPdo
             $message->setTitle($messageData['title']);
             $message->setContent($messageData['content']);
             $message->setCategory_id($messageData['category_id']);
-            $message->setDateCreatedAt($messageData['updated_at']);
-            $message->setDateUpdateAt($messageData['created_at']);
+            $message->setDateCreatedAt($messageData['created_at']);
+            $message->setDateUpdateAt($messageData['updated_at']);
             $message -> setUserIntoMessage();
             $message -> setCategoryIntoMessage();
             $messages[] = $message;
@@ -99,8 +99,8 @@ class messageDaoPdo
             $message->setTitle($messageData['title']);
             $message->setContent($messageData['content']);
             $message->setCategory_id($messageData['category_id']);
-            $message->setDateCreatedAt($messageData['updated_at']);
-            $message->setDateUpdateAt($messageData['created_at']);
+            $message->setDateCreatedAt($messageData['created_at']);
+            $message->setDateUpdateAt($messageData['updated_at']);
             $message -> setUserIntoMessage();
             $message -> setCategoryIntoMessage();
             $messages[] = $message;
@@ -127,8 +127,8 @@ class messageDaoPdo
             $message->setTitle($messageData['title']);
             $message->setContent($messageData['content']);
             $message->setCategory_id($messageData['category_id']);
-            $message->setDateCreatedAt($messageData['updated_at']);
-            $message->setDateUpdateAt($messageData['created_at']);
+            $message->setDateCreatedAt($messageData['created_at']);
+            $message->setDateUpdateAt($messageData['updated_at']);
             $message -> setUserIntoMessage();
             $message -> setCategoryIntoMessage();
             return $message;
@@ -157,8 +157,8 @@ class messageDaoPdo
             $message->setTitle($messageData['title']);
             $message->setContent($messageData['content']);
             $message->setCategory_id($messageData['category_id']);
-            $message->setDateCreatedAt($messageData['updated_at']);
-            $message->setDateUpdateAt($messageData['created_at']);
+            $message->setDateCreatedAt($messageData['created_at']);
+            $message->setDateUpdateAt($messageData['updated_at']);
             $message -> setUserIntoMessage();
             $message -> setCategoryIntoMessage();
             $messages[] = $message;
@@ -187,8 +187,8 @@ class messageDaoPdo
             $message->setTitle($messageData['title']);
             $message->setContent($messageData['content']);
             $message->setCategory_id($messageData['category_id']);
-            $message->setDateCreatedAt($messageData['updated_at']);
-            $message->setDateUpdateAt($messageData['created_at']);
+            $message->setDateCreatedAt($messageData['created_at']);
+            $message->setDateUpdateAt($messageData['updated_at']);
             $message -> setUserIntoMessage();
             $message -> setCategoryIntoMessage();
             $messages[] = $message;
@@ -216,8 +216,8 @@ class messageDaoPdo
             $message->setTitle($messageData['title']);
             $message->setContent($messageData['content']);
             $message->setCategory_id($messageData['category_id']);
-            $message->setDateCreatedAt($messageData['updated_at']);
-            $message->setDateUpdateAt($messageData['created_at']);
+            $message->setDateCreatedAt($messageData['created_at']);
+            $message->setDateUpdateAt($messageData['updated_at']);
             $message -> setUserIntoMessage();
             $message -> setCategoryIntoMessage();
             $messages[] = $message;
@@ -247,8 +247,8 @@ class messageDaoPdo
             $message->setTitle($messageData['title']);
             $message->setContent($messageData['content']);
             $message->setCategory_id($messageData['category_id']);
-            $message->setDateCreatedAt($messageData['updated_at']);
-            $message->setDateUpdateAt($messageData['created_at']);
+            $message->setDateCreatedAt($messageData['created_at']);
+            $message->setDateUpdateAt($messageData['updated_at']);
             $message -> setUserIntoMessage();
             $message -> setCategoryIntoMessage();
             $messages[] = $message;
@@ -279,8 +279,8 @@ class messageDaoPdo
             $message->setTitle($messageData['title']);
             $message->setContent($messageData['content']);
             $message->setCategory_id($messageData['category_id']);
-            $message->setDateCreatedAt($messageData['updated_at']);
-            $message->setDateUpdateAt($messageData['created_at']);
+            $message->setDateCreatedAt($messageData['created_at']);
+            $message->setDateUpdateAt($messageData['updated_at']);
             $message -> setUserIntoMessage();
             $message -> setCategoryIntoMessage();
             $messages[] = $message;
@@ -309,8 +309,8 @@ class messageDaoPdo
             $message->setTitle($messageData['title']);
             $message->setContent($messageData['content']);
             $message->setCategory_id($messageData['category_id']);
-            $message->setDateCreatedAt($messageData['updated_at']);
-            $message->setDateUpdateAt($messageData['created_at']);
+            $message->setDateCreatedAt($messageData['created_at']);
+            $message->setDateUpdateAt($messageData['updated_at']);
             $message -> setUserIntoMessage();
             $message -> setCategoryIntoMessage();
             $messages[] = $message;

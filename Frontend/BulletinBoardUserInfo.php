@@ -36,7 +36,6 @@
     <div class="rightSectionArea">
 
       <?php
-      session_start();
 
       $userId = $_SESSION['userId'];
       $userName = $_SESSION['userName'];

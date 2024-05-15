@@ -1,31 +1,31 @@
 <?php
 
-class category {
+class category
+{
     private $int_id;
     private $str_category;
-    
+
     public function __construct()
     {
-        $this->int_id;
-        $this->str_category;
     }
 
-    public function setId($id){
+    public function setId($id)
+    {
         $this->int_id = $id;
     }
 
-    public function getId(){
+    public function getId()
+    {
         return $this->int_id;
     }
 
-    public function setCategory($category){
+    public function setCategory($category)
+    {
         $this->str_category = $category;
     }
 
-    public function getCategory(){
+    public function getCategory()
+    {
         return $this->str_category;
     }
-    
 }
-
-?>

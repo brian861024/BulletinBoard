@@ -9,15 +9,7 @@ class user {
     private $date_created_at;
     private $date_updated_at;
 
-    public function __construct()
-    {
-        $this->int_id;
-        $this->str_userName;
-        $this->str_password;
-        $this->str_email;
-        $this->date_created_at;
-        $this->date_updated_at;
-    }
+    public function __construct(){}
 
     public function setId($id)
     {

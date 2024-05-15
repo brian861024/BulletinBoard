@@ -17,7 +17,7 @@
 
 </head>
 
-<body>
+<body onload="runOnloadFunction()">
   <!--===========================================================================-->
   <!--Header 區域 start-->
   <header>
@@ -65,7 +65,7 @@
         $messageUserId = $user->getId();
         $currentUserId = $_SESSION['userId'];
         // 檢查文章的user跟登入中的user是否一致
-        if ($messageUserId !== $currentUserId ) {
+        if ($messageUserId !== $currentUserId) {
           echo '錯誤：此非您發表之留言<br>';
           echo '<a href="..\..\Frontend\BulletinBoardIndex.php">點擊此處去首頁。</a>';
           exit;
@@ -75,7 +75,7 @@
         ?>
 
         <!----------------更新留言 form ---------------->
-        <form class="pure-form" action="../Backend/Service/messageService.php" method="post" name="updateMassageForm" id="updateMassageForm">
+        <form class="pure-form" action="../Backend/Service/messageService.php" method="post" name="updateMassageForm" id="updateMassageForm" onload="countTitleChar()">
           <fieldset class="pure-group">
             <!-- 用來分辨要使用哪一個controller方法 -->
             <input type="hidden" name="functionName" value="updateMessage">
@@ -85,12 +85,13 @@
             <input type="hidden" name="currentUserId" value="<?php echo $currentUserId ?>">
             <input type="hidden" name="messageUserId" value="<?php echo $messageUserId ?>">
 
+            當前字數：<label id="countTitle"></label>
             <input type="text" class="pure-input-1 mt-2" name="messageTitle" id="messageTitle" placeholder="修改後的標題" value="<?php
                                                                                                                             if (isset($message)) {
                                                                                                                               echo $message->getTitle();
                                                                                                                             } ?>" />
             <br>
-            <select class="mb-4" name="categoryId" id="categoryId">
+            <select class="mb-2" name="categoryId" id="categoryId">
               <option value="1" <?php if ($categoryId == 1) echo 'selected'; ?>>心情</option>
               <option value="2" <?php if ($categoryId == 2) echo 'selected'; ?>>工作</option>
               <option value="3" <?php if ($categoryId == 3) echo 'selected'; ?>>感情</option>
@@ -99,7 +100,9 @@
               <option value="6" <?php if ($categoryId == 6) echo 'selected'; ?>>遊戲</option>
               <option value="7" <?php if ($categoryId == 7) echo 'selected'; ?>>閒聊</option>
             </select>
-            <fieldset class="pure-group">
+            <br>
+            <fieldset>
+              當前字數：<label id="countContent"></label>
               <textarea class="pure-input-1" name="messageContent" id="messageContent" placeholder="修改後的留言" style="height: 400px ;min-height: 100px;max-height: 400px"><?php
                                                                                                                                                                         if (isset($message)) {
                                                                                                                                                                           echo $message->getContent();
@@ -164,6 +167,51 @@
 
     function goBack() {
       window.history.back();
+    }
+
+    function runOnloadFunction() {
+      countContentChar();
+      countTitleChar();
+    }
+
+    function countContentChar() {
+      //允許輸入最大長度
+      var intMaxLength = 300;
+      //文字輸入//取得計算字數的物件塊
+      var messageContent = document.getElementById("messageContent");
+      //取得計算字數的物件 
+      var countContent = document.getElementById("countContent");
+      //將文字輸入方塊表度寫入顯示Label
+      countContent.innerHTML = messageContent.value.length;
+      //比對字數是否超過允許長度
+      if (messageContent.value.length > intMaxLength) {
+        countContent.innerHTML = messageContent.value.length + '，留言上限為300字，已超過';
+        countTitle.classList.add("text-danger");
+      } else {
+        countTitle.classList.remove("text-danger");
+      }
+      //250毫秒後再執行一次此function
+      setTimeout("countContentChar()", 250);
+    }
+
+    function countTitleChar() {
+      //允許輸入最大長度
+      var intMaxLength = 20;
+      //文字輸入//取得計算字數的物件塊
+      var messageTitle = document.getElementById("messageTitle");
+      //取得計算字數的物件 
+      var countTitle = document.getElementById("countTitle");
+      //將文字輸入方塊表度寫入顯示Label
+      countTitle.innerHTML = messageTitle.value.length;
+      //比對字數是否超過允許長度
+      if (messageTitle.value.length > intMaxLength) {
+        countTitle.innerHTML = messageTitle.value.length + '，標題上限為20字，已超過';
+        countTitle.classList.add("text-danger");
+      } else {
+        countTitle.classList.remove("text-danger");
+      }
+      //250毫秒後再執行一次此function
+      setTimeout("countTitleChar()", 250);
     }
   </script>
 

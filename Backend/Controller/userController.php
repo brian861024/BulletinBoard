@@ -322,6 +322,8 @@ class userController
                 if ($previousEmail != $newEmail) {
                     //。將新信箱設定至資料庫
                     $userDaoPdo->updateEmailById($_SESSION['userId'], $newEmail);
+                    $_SESSION['userEmail'] = $newEmail;
+                    $_SESSION['userDateUpdateAt'] = date('Y-m-d H:i:s');
                     echo "<script type='text/javascript'>
                     alert('信箱更新成功，將重導至首頁。');
                     </script>";
@@ -370,6 +372,7 @@ class userController
             $userDaoPdo->updateUserPicById($_SESSION['userId'], $path);
             // 存放到session，可以即時更新更換後的圖像
             $_SESSION['userPicPath'] = $path;
+            $_SESSION['userDateUpdateAt'] = date('Y-m-d H:i:s');
             header("refresh:0;url=..\..\Frontend\BulletinBoardUserInfo.php");
         } else {
             echo "<script type='text/javascript'>
