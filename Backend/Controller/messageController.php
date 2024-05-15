@@ -22,9 +22,9 @@ class messageController
         $messageDaoPdo = new messageDaoPdo;
 
         //。比對標題是否多於30字
-        if (mb_strlen($messageTitle) < 30) {
+        if (mb_strlen($messageTitle) < 35) {
             //。比對內容是否多於300字
-            if (mb_strlen($messageContent) < 300) {
+            if (mb_strlen($messageContent) < 315) {
                 //。創立一個Message物件寫入資料後丟到Dao寫入資料庫
                 $message = new message;
                 $message->setUser_id($_SESSION['userId']);
@@ -112,10 +112,10 @@ class messageController
         $messageDaoPdo = new messageDaoPdo;
         if($currentUserId == $_SESSION['userId']){
             if($currentUserId == $messageUserId){
-                //。比對標題是否多於30字
-                if (mb_strlen($messageTitle) < 30) {
-                    //。比對內容是否多於300字
-                    if (mb_strlen($messageContent) < 300) {
+                //。比對標題是否多於30字，因為前端js計算的字數會比後端來的少，所以後端的標準放寬一些
+                if (mb_strlen($messageTitle) < 35) {
+                    //。比對內容是否多於300字，因為前端js計算的字數會比後端來的少，所以後端的標準放寬一些
+                    if (mb_strlen($messageContent) < 315) {
                         //。創立一個Message物件寫入資料後丟到Dao寫入資料庫
                         $message = new message;
                         $message->setId($messageId);
@@ -139,7 +139,7 @@ class messageController
                         echo "<script type='text/javascript'>
                         alert('內容字數不得大於300字');
                         </script>";
-                        header("refresh:0;url=..\..\Frontend\BulletinBoardUpdateMessage.php");
+                        header("refresh:0;url=..\..\Frontend\BulletinBoardUpdateMessage.php?messageId=$messageId");
                         exit;
                     }
                 } else {
@@ -149,7 +149,7 @@ class messageController
                     echo "<script type='text/javascript'>
                     alert('標題字數不得大於30字');
                     </script>";
-                    header("refresh:0;url=..\..\Frontend\BulletinBoardUpdateMessage.php");
+                    header("refresh:0;url=..\..\Frontend\BulletinBoardUpdateMessage.php?messageId=$messageId");
                     exit;
                 }
             } else {

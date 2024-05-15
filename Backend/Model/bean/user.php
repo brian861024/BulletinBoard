@@ -1,6 +1,7 @@
 <?php
 
-class user {
+class user
+{
     private $int_id;
     private $str_userName;
     private $str_password;
@@ -9,7 +10,9 @@ class user {
     private $date_created_at;
     private $date_updated_at;
 
-    public function __construct(){}
+    public function __construct()
+    {
+    }
 
     public function setId($id)
     {

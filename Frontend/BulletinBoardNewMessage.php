@@ -42,7 +42,7 @@
 
       <div class="newMassageFormArea">
         <!---------------- form ---------------->
-        <form class="pure-form pure-form-aligned" action="../Backend/Service/messageService.php" method="post" id="newMessageForm onload=">
+        <form class="pure-form pure-form-aligned" action="../Backend/Service/messageService.php" method="post" id="newMessageForm">
           <fieldset class="pure-group">
             <!-- 用來分辨要使用哪一個controller方法 -->
             <input type="hidden" name="functionName" value="newMessage">
@@ -67,11 +67,11 @@
             當前字數：<label id="countContent"></label>
             <textarea class="pure-input-1 mb-2" name="messageContent" id="messageContent" placeholder="留言輸入區 ( 上限 300 字 )" style="height: 400px ;min-height: 100px;max-height: 400px"><?php
                                                                                                                                                                                       if (isset($_SESSION['messageContent'])) {
-                                                                                                                                                                                        echo nl2br($_SESSION['messageContent']);
+                                                                                                                                                                                        echo $_SESSION['messageContent'];
                                                                                                                                                                                       }
                                                                                                                                                                                       ?></textarea>
           </fieldset>
-          <button type="submit" class="pure-button pure-input-1 pure-button-primary">送出</button>
+          <button type="button" class="pure-button pure-input-1 pure-button-primary" onclick="submitNewMessageForm()">送出</button>
         </form>
         <!---------------- form ---------------->
       </div>
@@ -94,6 +94,20 @@
   <!--===========================================================================-->
 
   <script>
+    function submitNewMessageForm() {
+      if (messageContent.value.length <= 300) {
+        if (messageTitle.value.length <= 20) {
+          document.getElementById("newMessageForm").submit();
+        } else {
+          alert('標題長度不符');
+          return false;
+        }
+      } else {
+        alert('內容長度不符');
+        return false;
+      }
+    }
+
     function runOnloadFunction() {
       countContentChar();
       countTitleChar();
@@ -138,6 +152,8 @@
       //250毫秒後再執行一次此function
       setTimeout("countTitleChar()", 250);
     }
+
+    window.onload = runOnloadFunction;
   </script>
 
 </body>

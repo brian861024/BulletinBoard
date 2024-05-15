@@ -158,9 +158,19 @@
     }
 
     function submitUpdateMassageForm() {
-      if (confirm("確認修改嗎？")) {
-        document.getElementById("updateMassageForm").submit();
+      if (messageContent.value.length <= 300) {
+        if (messageTitle.value.length <= 20) {
+          if (confirm("確認修改嗎？")) {
+            document.getElementById("updateMassageForm").submit();
+          } else {
+            return false;
+          }
+        } else {
+          alert('標題長度不符');
+          return false;
+        }
       } else {
+        alert('內容長度不符');
         return false;
       }
     }
@@ -186,9 +196,9 @@
       //比對字數是否超過允許長度
       if (messageContent.value.length > intMaxLength) {
         countContent.innerHTML = messageContent.value.length + '，留言上限為300字，已超過';
-        countTitle.classList.add("text-danger");
+        countContent.classList.add("text-danger");
       } else {
-        countTitle.classList.remove("text-danger");
+        countContent.classList.remove("text-danger");
       }
       //250毫秒後再執行一次此function
       setTimeout("countContentChar()", 250);
