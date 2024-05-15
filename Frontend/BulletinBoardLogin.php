@@ -15,11 +15,14 @@
 
 </head>
 
-<body>
+<body class="animate__animated animate__fadeIn">
     <!--===========================================================================-->
     <!--Container 區域 start-->
     <container>
         <div class="loginFormArea">
+            <div class="wellcomeTitle animate__animated animate__fadeIn" style="font-size:80px;font-family: masafont-Regular, Arial, sans-serif;">
+                歡迎來到留言板
+            </div>
             <div class="loginform">
                 <!---------------- form ---------------->
                 <form class="pure-form pure-form-aligned" action="../Backend/Service/userService.php" method="post" id="loginForm">
@@ -42,7 +45,7 @@
                             <input type="password" id="password" name="password" class="pure-input-2-3" placeholder="Password" required />
                         </div>
                         <div class="pure-control-group mt-4">
-                            <img src="../Backend/OTP.php" alt="" id="captchaImage" name="captchaImage"  style="margin-left: 5px;padding-left: 10PX;">
+                            <img src="../Backend/OTP.php" alt="" id="captchaImage" name="captchaImage" style="margin-left: 5px;padding-left: 10PX;">
                             <input type="text" id="otp" name="otp" class="pure-input-3 ms-5" placeholder="請輸入左側數字" required />
                         </div>
                     </fieldset>

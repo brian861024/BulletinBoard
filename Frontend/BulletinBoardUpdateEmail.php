@@ -37,7 +37,7 @@
 
       <div class="updateEmailTitle">
         <div class="updateEmailTitleColorBar"></div>
-        <h2> 會員信箱更新 </h2>
+        <h2 class="animate__animated animate__fadeIn"> 會員信箱更新 </h2>
       </div>
 
       <div class="updateEmailFormArea mt-4">

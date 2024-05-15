@@ -37,8 +37,8 @@
 
       <div class="updatePasswordTitle">
         <div class="updatePasswordTitleColorBar"></div>
-        <h2> 會員密碼更新 </h2>
-        <h6 class="ms-4">(修改後需要重新登入)</h6> 
+        <h2 class="animate__animated animate__fadeIn"> 會員密碼更新 </h2>
+        <h6 class="ms-4 animate__animated animate__fadeIn">(修改後需要重新登入)</h6> 
       </div>
 
       <div class="updatePasswordFormArea mt-4">

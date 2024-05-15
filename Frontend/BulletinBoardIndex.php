@@ -36,7 +36,7 @@
 
     <!-- 右側內容區域 -->
 
-    <div class="rightSectionArea">
+    <div class="rightSectionArea animate__animated animate__fadeIn">
 
       <!-- 上方搜索列表 -->
       <div class="searchArea">

@@ -67,7 +67,7 @@
       <div class="viewMassageTitle mb-2">
 
         <div class="viewMassageTitleColorBar"></div>
-        <h2> <?php echo $message->getTitle() ?> </h2>
+        <h2 class="animate__animated animate__fadeIn"> <?php echo $message->getTitle() ?> </h2>
       </div>
 
       <div class="InfoArea mt-4 p-4">

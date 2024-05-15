@@ -15,7 +15,7 @@
 
 </head>
 
-<body>
+<body class="animate__animated animate__fadeIn">
     <!--===========================================================================-->
     <!--Container 區域 start-->
     <container>

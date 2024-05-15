@@ -47,7 +47,7 @@
 
       <div class="updateEmailTitle mb-4">
         <div class="updateEmailTitleColorBar"></div>
-        <h2> 會員資訊 </h2>
+        <h2 class="animate__animated animate__fadeIn"> 會員資訊 </h2>
       </div>
 
       <div>

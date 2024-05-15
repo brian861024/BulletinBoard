@@ -39,7 +39,7 @@
 
       <div class="updateMassageTitle mb-2">
         <div class="updateMassageTitleColorBar"></div>
-        <h2> 修改留言 </h2>
+        <h2 > 修改留言 </h2>
       </div>
 
       <div class="updateMassageFormArea">

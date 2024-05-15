@@ -36,7 +36,7 @@
     <?php include 'C:\htdocs\Frontend\fragments\BulletinBoardLeftNavbar.php'; ?>
 
     <!-- 右側內容區域 -->
-    <div class="rightSectionArea">
+    <div class="rightSectionArea animate__animated animate__fadeIn">
 
       <div class="historyMessageCardArea">
 
